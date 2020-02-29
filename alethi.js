@@ -2,16 +2,18 @@ var images = {}
 
 var sounds = ["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z"]
 
-for (const sound of sounds) {
-    var request = new XMLHttpRequest();
-    const listener = function(){
-        console.log(sound)
-        console.log(this.responseXML)
-        images[sound] = this.responseXML.documentElement.querySelector("g")
-    }
-    request.addEventListener("load", listener)
-    request.open("GET", "Women's_Script_" + sound + ".svg")
-    request.send()
+function loadImages() {
+    return Promise.all(
+        sounds.map(sound =>
+            fetch("Women's_Script_" + sound + ".svg")
+            .then(response => response.text())
+            .then(text => (new window.DOMParser()).parseFromString(text, "text/xml"))
+            .then(svgNode => {
+                console.log(sound, svgNode)
+                images[sound] = svgNode.querySelector("g")
+            })
+        )
+    )
 }
 
 
@@ -59,5 +61,8 @@ function generateText(){
 }
 
 window.onload = function(){
-    document.getElementById("generateButton").onclick = this.generateText
+    document.getElementById("generateButton").onclick = generateText
+    
+    loadImages()
+    .then(generateText)
 }
