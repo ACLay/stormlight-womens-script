@@ -133,12 +133,7 @@ function saveImage() {
     image.onload = function(){
         context.drawImage(image, 0, 0, svg.getAttribute("width"), svg.getAttribute("height"))
         domURL.revokeObjectURL(url)
-
-        const imgURI = canvas
-            .toDataURL("image/png")
-            .replace("image/png", "image/octed-stream")
-
-        triggerDownload(imgURI)
+        triggerDownload(canvas.toDataURL())
     }
     image.src = url
 }
