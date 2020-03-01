@@ -62,6 +62,9 @@ function generateText(){
     let imgWidth = 0
     let imgHeight = 0
     const svg = document.getElementById("drawingArea")
+    while (svg.hasChildNodes()) {
+        svg.removeChild(svg.firstChild)
+    }
 
     let previousLines = 0
     for (const line of text.split('\n')) {
