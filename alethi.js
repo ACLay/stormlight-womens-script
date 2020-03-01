@@ -45,7 +45,7 @@ function getFirstSound(text) {
 function loadImages() {
     return Promise.all(
         sounds.map(sound =>
-            fetch("Women's_Script_" + sound + ".svg")
+            fetch("symbols/" + sound + ".svg")
             .then(response => response.text())
             .then(text => (new window.DOMParser()).parseFromString(text, "text/xml"))
             .then(svgNode => {
@@ -69,7 +69,7 @@ function generateText(){
     let previousLines = 0
     for (const line of text.split('\n')) {
         if (previousLines != 0) {
-            imgHeight += 50
+            imgHeight += 10
         }
         let lineWidth = 0
         let lineSounds = 0
@@ -77,8 +77,8 @@ function generateText(){
         while (remainder.length > 0) {
             let sound = getFirstSound(remainder)
             if (sounds.includes(sound)) {
-                const xOffSet = (151 * lineSounds) - 174.5
-                const yOffSet = imgHeight-651.86218
+                const xOffSet = (41 * lineSounds)
+                const yOffSet = imgHeight
 
                 const glyph = images[sound].cloneNode(true)
                 glyph.setAttribute("transform", "translate("+xOffSet+","+yOffSet+")")
@@ -86,14 +86,14 @@ function generateText(){
             } else {
                 sound = " "
             }
-            lineWidth += 151
+            lineWidth += 41
             lineSounds += 1
             remainder = remainder.substr(sound.length)
         }
         if (lineWidth > imgWidth) {
             imgWidth = lineWidth
         }
-        imgHeight += 301
+        imgHeight += 61
         previousLines += 1
     }
     svg.setAttribute("width", imgWidth)
