@@ -98,24 +98,10 @@ function generateText(){
     }
     svg.setAttribute("width", imgWidth)
     svg.setAttribute("height", imgHeight)
+    displayImage()
 }
 
-function triggerDownload(imgURI) {
-    const click = new MouseEvent("click", {
-        view: window,
-        bubbles: false,
-        cancelable: true,
-    })
-
-    var link = document.createElement("a")
-    link.setAttribute("download", "womens_script.png")
-    link.setAttribute("href", imgURI)
-    link.setAttribute("target", "_blank")
-
-    link.dispatchEvent(click)
-}
-
-function saveImage() {
+function displayImage() {
     const canvas = document.createElement("canvas")
     const context = canvas.getContext("2d")
     const svg = document.getElementById("drawingArea")
@@ -133,14 +119,14 @@ function saveImage() {
     image.onload = function(){
         context.drawImage(image, 0, 0, svg.getAttribute("width"), svg.getAttribute("height"))
         domURL.revokeObjectURL(url)
-        triggerDownload(canvas.toDataURL())
+        const imageTag = document.getElementById("outputImage")
+        imageTag.src = canvas.toDataURL()
     }
     image.src = url
 }
 
 window.onload = function(){
     document.getElementById("generateButton").onclick = generateText
-    document.getElementById("saveButton").onclick = saveImage
     
     document.getElementById("sourceText").value =
         "Szeth son son Vallano\n" +
