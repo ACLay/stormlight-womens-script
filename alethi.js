@@ -100,9 +100,59 @@ function generateText(){
     svg.setAttribute("height", imgHeight)
 }
 
+function triggerDownload(imgURI) {
+    const click = new MouseEvent("click", {
+        view: window,
+        bubbles: false,
+        cancelable: true,
+    })
+
+    var link = document.createElement("a")
+    link.setAttribute("download", "womens_script.png")
+    link.setAttribute("href", imgURI)
+    link.setAttribute("target", "_blank")
+
+    link.dispatchEvent(click)
+}
+
+function saveImage() {
+    const canvas = document.createElement("canvas")
+    const context = canvas.getContext("2d")
+    const svg = document.getElementById("drawingArea")
+
+    canvas.width = svg.getAttribute("width")
+    canvas.height = svg.getAttribute("height")
+
+    const data = (new XMLSerializer()).serializeToString(svg)
+    const domURL = window.URL || window.webkitURL || window
+
+    var image = new Image()
+    var svgBlob = new Blob([data], {type: "image/svg+xml;charset=utf-8"})
+    var url = domURL.createObjectURL(svgBlob)
+
+    image.onload = function(){
+        context.drawImage(image, 0, 0, svg.getAttribute("width"), svg.getAttribute("height"))
+        domURL.revokeObjectURL(url)
+
+        const imgURI = canvas
+            .toDataURL("image/png")
+            .replace("image/png", "image/octed-stream")
+
+        triggerDownload(imgURI)
+    }
+    image.src = url
+}
+
 window.onload = function(){
     document.getElementById("generateButton").onclick = generateText
+    document.getElementById("saveButton").onclick = saveImage
     
+    document.getElementById("sourceText").value =
+        "Szeth son son Vallano\n" +
+        "Truthless of Shinovar\n" +
+        "wore white on the day\n" +
+        "he was to kill a king"
+
     loadImages()
     .then(generateText)
 }
