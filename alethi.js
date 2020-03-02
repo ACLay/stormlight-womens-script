@@ -126,8 +126,15 @@ function displayImage() {
     image.src = url
 }
 
+function setBackground() {
+    const svg = document.getElementById("drawingArea")
+    const picker = document.getElementById("bgColourPicker")
+    svg.setAttribute("style", "background-color: "+picker.value+";")
+}
+
 window.onload = function(){
     document.getElementById("generateButton").onclick = generateText
+    document.getElementById("bgColourPicker").onchange = setBackground
     
     document.getElementById("sourceText").value =
         "Szeth son son Vallano\n" +
