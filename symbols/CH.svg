@@ -5,11 +5,11 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   width="41"
-   height="61"
-   viewBox="0 0 41 61.000001"
+   version="1.1"
    id="svg2"
-   version="1.1">
+   viewBox="0 0 20 61.000001"
+   height="61"
+   width="20">
   <defs
      id="defs4" />
   <metadata
@@ -27,28 +27,28 @@
   <g
      id="layer4">
     <path
-       id="path4136"
-       d="m 0,30.50004 41,0"
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       id="path4214"
-       d="m 20.500363,10.5 c -0.02777,6.514387 -1.301929,7.954887 -3.432028,7.974212 -0.74023,0.0067 -1.896505,-0.03755 -1.898872,-1.30149 -0.01388,9.280486 -1.776966,13.33419 -3.998175,13.32725"
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 0,30.50004 20,0"
+       id="path4136" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 20.500363,50.499879 c -0.02777,-6.514387 -1.301929,-7.954887 -3.432028,-7.974212 -0.74023,-0.0067 -1.896505,0.03755 -1.898872,1.30149 -0.01388,-9.280486 -1.776966,-13.33419 -3.998175,-13.32725"
-       id="path4885" />
+       d="m 12.500363,10.5 c -0.02777,6.514387 -1.301929,7.954887 -3.432028,7.974212 -0.74023,0.0067 -1.896505,-0.03755 -1.898872,-1.30149 -0.01388,9.280486 -1.776966,13.33419 -3.998175,13.32725"
+       id="path4214" />
     <path
-       id="path4139-3"
-       d="m 20.5,10.5 0,40"
-       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       id="path4163"
-       d="m 22.5,24.5 0,12"
-       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1" />
+       id="path4885"
+       d="m 12.500363,50.499879 c -0.02777,-6.514387 -1.301929,-7.954887 -3.432028,-7.974212 -0.74023,-0.0067 -1.896505,0.03755 -1.898872,1.30149 -0.01388,-9.280486 -1.776966,-13.33419 -3.998175,-13.32725"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 24.5,24.5 0,12"
-       id="path5006" />
+       d="m 12.5,10.5 0,40"
+       id="path4139-3" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 14.5,24.5 0,12"
+       id="path4163" />
+    <path
+       id="path5006"
+       d="m 16.5,24.5 0,12"
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1" />
   </g>
 </svg>

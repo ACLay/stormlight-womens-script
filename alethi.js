@@ -1,4 +1,5 @@
 const images = {}
+const imageWidths = new Map()
 
 const sounds = ["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z"]
 
@@ -51,6 +52,7 @@ function loadImages() {
             .then(svgNode => {
                 console.log(sound, svgNode)
                 images[sound] = svgNode.querySelector("g")
+                imageWidths.set(sound, parseInt(svgNode.documentElement.getAttribute("width")))
             })
         )
     )
@@ -72,22 +74,21 @@ function generateText(){
             imgHeight += 10
         }
         let lineWidth = 0
-        let lineSounds = 0
         let remainder = line
         while (remainder.length > 0) {
             let sound = getFirstSound(remainder)
             if (sounds.includes(sound)) {
-                const xOffSet = (41 * lineSounds)
+                const xOffSet = lineWidth
                 const yOffSet = imgHeight
 
                 const glyph = images[sound].cloneNode(true)
                 glyph.setAttribute("transform", "translate("+xOffSet+","+yOffSet+")")
                 svg.appendChild(glyph)
+                lineWidth += imageWidths.get(sound)
             } else {
                 sound = " "
+                lineWidth += 10
             }
-            lineWidth += 41
-            lineSounds += 1
             remainder = remainder.substr(sound.length)
         }
         if (lineWidth > imgWidth) {
@@ -135,5 +136,8 @@ window.onload = function(){
         "he was to kill a king"
 
     loadImages()
-    .then(generateText)
+    .then(() => {
+        setBackground()
+        generateText()
+    })
 }
