@@ -6,18 +6,20 @@
     </head>
     <body>
         <h1>Alethi Script</h1>
-        <br>
         <textarea id="sourceText" style="min-width:30em;min-height:5em;"></textarea>
-        <br>
-        <label><input type="color" value="#000000" id="fgColourPicker"> Text Colour</label>
-        <label><input type="color" value="#ffffff" id="bgColourPicker"> Background Colour</label>
-        <label><input type="checkbox" id="transparentBgCheckbox"> Transparent Background</label>
-        <label><input type="checkbox" id="centeredCheckbox"> Centralise Text</label>
+        <div class="customisation">
+            <input type="color" value="#000000" id="fgColourPicker">
+            <label for="fgColourPicker">Text Colour</label>
+            <input type="color" value="#ffffff" id="bgColourPicker">
+            <label for="bgColourPicker">Background Colour</label>
+            <input type="checkbox" id="transparentBgCheckbox">
+            <label for="transparentBgCheckbox">Transparent Background</label>
+            <input type="checkbox" id="centeredCheckbox">
+            <label for="centeredCheckbox">Centralise Text</label>
+        </div>
         <button id="generateButton">Generate</button>
         <svg id="drawingArea"></svg>
-        <br>
         <img id="outputImage"/>
-        <br>
         <p>
             Turns text into the Alethi women's script from The Stormlight Archive.
             <br>

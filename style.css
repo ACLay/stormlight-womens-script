@@ -1,3 +1,29 @@
 svg {
     display: none
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.customisation {
+    display: grid;
+    grid-template-columns: auto auto; /* Workaround for https://bugzil.la/1341507 */
+    grid-template-columns: repeat(auto-fill, minmax(3em, auto) minmax(8em, auto));
+    grid-auto-rows: 1fr;
+    column-gap: 0.5em;
+    align-items: center;
+    margin: 0.5em;
+    width: 70%;
+    max-width: 40em;
+}
+
+button {
+    margin: 0.5em;
+}
+
+.customisation input {
+    justify-self: center;
+}
