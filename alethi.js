@@ -1,3 +1,10 @@
+const Alethi = {
+    borderSize : 5,
+    lineHeight : 61,
+    lineSpacing : 10,
+    wordSpacing : 10,
+}
+
 const images = new Map()
 const imageWidths = new Map()
 
@@ -70,36 +77,53 @@ function generateText(){
     }
 
     let previousLines = 0
+    const lineGroups = []
+    const lineWidths = []
     for (const line of text.split('\n')) {
         if (previousLines != 0) {
-            imgHeight += 10
+            imgHeight += Alethi.lineSpacing
         }
         let lineWidth = 0
-        let remainder = line
+        let remainder = line.trim()
+        const lineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
         while (remainder.length > 0) {
             let sound = getFirstSound(remainder)
             if (sounds.includes(sound)) {
-                const xOffSet = lineWidth
-                const yOffSet = imgHeight
-
                 const glyph = images.get(sound).cloneNode(true)
-                glyph.setAttribute("transform", "translate("+xOffSet+","+yOffSet+")")
-                svg.appendChild(glyph)
+                glyph.setAttribute("transform", "translate("+lineWidth+",0)")
+                lineGroup.appendChild(glyph)
                 lineWidth += imageWidths.get(sound)
             } else {
                 sound = " "
-                lineWidth += 10
+                lineWidth += Alethi.wordSpacing
             }
             remainder = remainder.substr(sound.length)
         }
         if (lineWidth > imgWidth) {
             imgWidth = lineWidth
         }
-        imgHeight += 61
+        svg.appendChild(lineGroup)
+        lineWidths.push(lineWidth)
+        lineGroups.push(lineGroup)
+        imgHeight += Alethi.lineHeight
         previousLines += 1
     }
-    svg.setAttribute("width", imgWidth)
-    svg.setAttribute("height", imgHeight)
+
+    const centered = document.getElementById("centeredCheckbox").checked
+    let yOffset = Alethi.borderSize
+    for (let i = 0; i < lineGroups.length; i++) {
+        const group = lineGroups[i]
+        const width = lineWidths[i]
+        let xOffset = Alethi.borderSize
+        if (centered) {
+            xOffset += Math.round((imgWidth - width) / 2)
+        }
+        group.setAttribute("transform", "translate("+xOffset+","+yOffset+")")
+        yOffset += Alethi.lineHeight + Alethi.lineSpacing
+    }
+    
+    svg.setAttribute("width", imgWidth + 2 * Alethi.borderSize)
+    svg.setAttribute("height", imgHeight + 2 * Alethi.borderSize)
     displayImage()
 }
 
