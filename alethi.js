@@ -1,4 +1,4 @@
-const images = {}
+const images = new Map()
 const imageWidths = new Map()
 
 const sounds = ["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z"]
@@ -48,10 +48,11 @@ function loadImages() {
         sounds.map(sound =>
             fetch("symbols/" + sound + ".svg")
             .then(response => response.text())
+            .then(text => text.replace(/stroke:#[0-9a-fA-F]*;?/g, ''))
             .then(text => (new window.DOMParser()).parseFromString(text, "text/xml"))
             .then(svgNode => {
                 console.log(sound, svgNode)
-                images[sound] = svgNode.querySelector("g")
+                images.set(sound, svgNode.querySelector("g"))
                 imageWidths.set(sound, parseInt(svgNode.documentElement.getAttribute("width")))
             })
         )
@@ -81,7 +82,7 @@ function generateText(){
                 const xOffSet = lineWidth
                 const yOffSet = imgHeight
 
-                const glyph = images[sound].cloneNode(true)
+                const glyph = images.get(sound).cloneNode(true)
                 glyph.setAttribute("transform", "translate("+xOffSet+","+yOffSet+")")
                 svg.appendChild(glyph)
                 lineWidth += imageWidths.get(sound)
@@ -137,10 +138,19 @@ function setBackground() {
     svg.setAttribute("style", style)
 }
 
+function setForeground() {
+    const picker = document.getElementById("fgColourPicker")
+    const style = "stroke:"+picker.value
+    for (const symbol of images.values()) {
+        symbol.setAttribute("style", style)
+    }
+}
+
 window.onload = function(){
     document.getElementById("generateButton").onclick = generateText
     document.getElementById("bgColourPicker").onchange = setBackground
     document.getElementById("transparentBgCheckbox").onchange = setBackground
+    document.getElementById("fgColourPicker").onchange = setForeground
     
     document.getElementById("sourceText").value =
         "Szeth son son Vallano\n" +
@@ -151,6 +161,7 @@ window.onload = function(){
     loadImages()
     .then(() => {
         setBackground()
+        setForeground()
         generateText()
     })
 }
