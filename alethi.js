@@ -69,6 +69,7 @@ function loadImages() {
 
 function generateText(){
     const text = document.getElementById("sourceText").value.trim().toUpperCase()
+    const autoHeightMarkers = document.getElementById("autoHeightMarkCheckbox").checked
     let imgWidth = 0
     let imgHeight = 0
     const svg = document.getElementById("drawingArea")
@@ -77,6 +78,7 @@ function generateText(){
     }
 
     let previousLines = 0
+    let newParagraph = true
     const lineGroups = []
     const lineWidths = []
     for (const line of text.split('\n')) {
@@ -88,6 +90,14 @@ function generateText(){
             .trim()
             .replace(/X/g, "KS")
             .replace(/\|/g, "][")
+        if (remainder.length > 0) {
+            if (autoHeightMarkers && newParagraph && !remainder.startsWith("][")) {
+                remainder = "][" + remainder
+            }
+            newParagraph = false
+        } else {
+            newParagraph = true
+        }
         const lineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
         while (remainder.length > 0) {
             let sound = getFirstSound(remainder)
