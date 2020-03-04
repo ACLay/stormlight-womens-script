@@ -1,7 +1,3 @@
-svg {
-    display: none
-}
-
 body {
     display: flex;
     flex-direction: column;
@@ -20,10 +16,14 @@ body {
     max-width: 40em;
 }
 
-button {
-    margin: 0.5em;
-}
-
 .customisation input {
     justify-self: center;
+}
+
+svg {
+    display: none
+}
+
+button {
+    margin: 0.5em;
 }
