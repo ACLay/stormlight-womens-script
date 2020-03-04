@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    version="1.1"
    id="svg2"
-   viewBox="0 0 25 61.000001"
+   viewBox="0 0 18 61.000001"
    height="61"
-   width="25">
+   width="18">
   <defs
      id="defs4" />
   <metadata
@@ -27,24 +27,20 @@
   <g
      id="layer6">
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 0,30.50004 25,0"
-       id="path4136" />
+       id="path4136"
+       d="m 0,30.50004 18,0"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 11.5,0.5 10,0"
-       id="path4136-0" />
-    <path
-       id="path4187"
-       d="m 11.5,60.50004 10,0"
+       id="path4136-0"
+       d="m 3.5,0.5 10,0"
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 16.5,0.5 c -0.04167,12.604167 -7.333333,30.020833 -14,30"
-       id="path4194" />
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 3.5,60.50004 10,0"
+       id="path4187" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 16.5,0.5 0,60"
-       id="path4139" />
+       id="path4139"
+       d="m 8.5,0.5 0,60"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1" />
   </g>
 </svg>
