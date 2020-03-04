@@ -4,6 +4,18 @@ body {
     align-items: center;
 }
 
+textarea {
+    width: 30em;
+    max-width: 100%;
+    min-height: 5em;
+}
+
+@media (max-width: 30em) {
+    textarea {
+        width:100%
+    }
+}
+
 .customisation {
     display: grid;
     grid-template-columns: auto auto; /* Workaround for https://bugzil.la/1341507 */
