@@ -8,7 +8,7 @@ const Alethi = {
 const images = new Map()
 const imageWidths = new Map()
 
-const sounds = ["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z"]
+const sounds = ["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z","]["]
 
 const stringSounds = new Map([
     ["A", "A"],
@@ -34,12 +34,12 @@ const stringSounds = new Map([
     ["U", "U"],
     ["V", "V"],
     ["W", "U"],
-    ["X", "K"], //KS substitution?
     ["Y", "Y"],
     ["Z", "Z"],
     ["CH", "CH"],
     ["SH", "SH"],
     ["TH", "TH"],
+    ["][", "]["], // max line height indicator
 ])
 
 function getFirstSound(text) {
@@ -84,7 +84,10 @@ function generateText(){
             imgHeight += Alethi.lineSpacing
         }
         let lineWidth = 0
-        let remainder = line.trim()
+        let remainder = line
+            .trim()
+            .replace(/X/g, "KS")
+            .replace(/\|/g, "][")
         const lineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
         while (remainder.length > 0) {
             let sound = getFirstSound(remainder)
