@@ -40,15 +40,8 @@ const stringSounds = new Map([
     ["SH", "SH"],
     ["TH", "TH"],
     ["][", "]["], // max line height indicator
+    [" ", " "],
 ])
-
-function getFirstSound(text) {
-    let sound = text.substr(0, 2)
-    if (!stringSounds.has(sound)) {
-        sound = text.substr(0, 1)
-    }
-    return stringSounds.get(sound)
-}
 
 function loadImages() {
     return Promise.all(
@@ -66,10 +59,43 @@ function loadImages() {
     )
 }
 
+function getSymbols() {
+    let text = document.getElementById("sourceText").value.trim().toUpperCase()
+    const autoHeightMarkers = document.getElementById("autoHeightMarkCheckbox").checked
+    text = text.trim()
+        .replace(/X/g, "KS")
+        .replace(/\|/g, "][")
+    const lines = []
+    let newParagraph = true
+    for (let line of text.split('\n')) {
+        line = line.trim()
+        const symbols = []
+        if (line.length > 0) {
+            if (autoHeightMarkers && newParagraph && !line.startsWith("][")) {
+                symbols.push("][")
+            }
+            newParagraph = false
+        } else {
+            newParagraph = true
+        }
+        let index = 0
+        while (index < line.length) {
+            let sound = line.substr(index, 2)
+            if (!stringSounds.has(sound)) {
+                sound = line.substr(index, 1)
+            }
+            if (stringSounds.has(sound)) {
+                symbols.push(stringSounds.get(sound))
+            }
+            index += sound.length
+        }
+        lines.push(symbols)
+    }
+    console.log(lines)
+    return lines
+}
 
 function generateText(){
-    const text = document.getElementById("sourceText").value.trim().toUpperCase()
-    const autoHeightMarkers = document.getElementById("autoHeightMarkCheckbox").checked
     let imgWidth = 0
     let imgHeight = 0
     const svg = document.getElementById("drawingArea")
@@ -77,40 +103,24 @@ function generateText(){
         svg.removeChild(svg.firstChild)
     }
 
-    let previousLines = 0
-    let newParagraph = true
     const lineGroups = []
     const lineWidths = []
-    for (const line of text.split('\n')) {
-        if (previousLines != 0) {
+    const lines = getSymbols()
+    for (let i = 0; i < lines.length; i++) {
+        if (i != 0) {
             imgHeight += Alethi.lineSpacing
         }
         let lineWidth = 0
-        let remainder = line
-            .trim()
-            .replace(/X/g, "KS")
-            .replace(/\|/g, "][")
-        if (remainder.length > 0) {
-            if (autoHeightMarkers && newParagraph && !remainder.startsWith("][")) {
-                remainder = "][" + remainder
-            }
-            newParagraph = false
-        } else {
-            newParagraph = true
-        }
         const lineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
-        while (remainder.length > 0) {
-            let sound = getFirstSound(remainder)
-            if (sounds.includes(sound)) {
-                const glyph = images.get(sound).cloneNode(true)
+        for (const symbol of lines[i]) {
+            if (symbol != " ") {
+                const glyph = images.get(symbol).cloneNode(true)
                 glyph.setAttribute("transform", "translate("+lineWidth+",0)")
                 lineGroup.appendChild(glyph)
-                lineWidth += imageWidths.get(sound)
+                lineWidth += imageWidths.get(symbol)
             } else {
-                sound = " "
                 lineWidth += Alethi.wordSpacing
             }
-            remainder = remainder.substr(sound.length)
         }
         if (lineWidth > imgWidth) {
             imgWidth = lineWidth
@@ -119,7 +129,6 @@ function generateText(){
         lineWidths.push(lineWidth)
         lineGroups.push(lineGroup)
         imgHeight += Alethi.lineHeight
-        previousLines += 1
     }
 
     const centered = document.getElementById("centeredCheckbox").checked
