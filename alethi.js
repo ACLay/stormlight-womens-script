@@ -91,7 +91,6 @@ function getSymbols() {
         }
         lines.push(symbols)
     }
-    console.log(lines)
     return lines
 }
 
