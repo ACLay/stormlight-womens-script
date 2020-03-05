@@ -130,14 +130,16 @@ function generateText(){
         imgHeight += Alethi.lineHeight
     }
 
-    const centered = document.getElementById("centeredCheckbox").checked
+    const align = document.querySelector("input[name=align]:checked").value
     let yOffset = Alethi.borderSize
     for (let i = 0; i < lineGroups.length; i++) {
         const group = lineGroups[i]
         const width = lineWidths[i]
         let xOffset = Alethi.borderSize
-        if (centered) {
+        if (align == "center") {
             xOffset += Math.round((imgWidth - width) / 2)
+        } else if (align == "right") {
+            xOffset += imgWidth - width
         }
         group.setAttribute("transform", "translate("+xOffset+","+yOffset+")")
         yOffset += Alethi.lineHeight + Alethi.lineSpacing

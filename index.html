@@ -14,8 +14,14 @@
             <label for="bgColourPicker">Background Colour</label>
             <input type="checkbox" id="transparentBgCheckbox">
             <label for="transparentBgCheckbox">Transparent Background</label>
-            <input type="checkbox" id="centeredCheckbox">
-            <label for="centeredCheckbox">Centralise Text</label>
+
+            <input type="radio" name="align" value="left" id="leftAlignCheckbox">
+            <label for="leftAlignCheckbox">Left Align Text</label>
+            <input type="radio" name="align" value="center" id="centerAlignCheckbox" checked>
+            <label for="centerAlignCheckbox">Center Align Text</label>
+            <input type="radio" name="align" value="right" id="rightAlignCheckbox">
+            <label for="rightAlignCheckbox">Right Align Text</label>
+
             <input type="checkbox" id="autoHeightMarkCheckbox" checked>
             <label for="autoHeightMarkCheckbox">Auto height markers</label>
         </div>
