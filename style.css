@@ -19,6 +19,7 @@ textarea {
 details {
     width: 70%;
     max-width: 40em;
+    margin: 0.5em;
 }
 
 .customisation {
