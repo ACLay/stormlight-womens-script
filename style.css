@@ -16,6 +16,11 @@ textarea {
     }
 }
 
+details {
+    width: 70%;
+    max-width: 40em;
+}
+
 .customisation {
     display: grid;
     grid-template-columns: auto auto; /* Workaround for https://bugzil.la/1341507 */
@@ -24,8 +29,7 @@ textarea {
     column-gap: 0.5em;
     align-items: center;
     margin: 0.5em;
-    width: 70%;
-    max-width: 40em;
+    width: 100%;
 }
 
 .customisation input {

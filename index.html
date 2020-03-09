@@ -7,24 +7,27 @@
     <body>
         <h1>Alethi Script</h1>
         <textarea id="sourceText"></textarea>
-        <div class="customisation">
-            <input type="color" value="#000000" id="fgColourPicker">
-            <label for="fgColourPicker">Text Colour</label>
-            <input type="color" value="#ffffff" id="bgColourPicker">
-            <label for="bgColourPicker">Background Colour</label>
-            <input type="checkbox" id="transparentBgCheckbox">
-            <label for="transparentBgCheckbox">Transparent Background</label>
+        <details>
+            <summary>Customisation options</summary>
+            <div class="customisation">
+                <input type="color" value="#000000" id="fgColourPicker">
+                <label for="fgColourPicker">Text Colour</label>
+                <input type="color" value="#ffffff" id="bgColourPicker">
+                <label for="bgColourPicker">Background Colour</label>
+                <input type="checkbox" id="transparentBgCheckbox">
+                <label for="transparentBgCheckbox">Transparent Background</label>
 
-            <input type="radio" name="align" value="left" id="leftAlignCheckbox">
-            <label for="leftAlignCheckbox">Left Align Text</label>
-            <input type="radio" name="align" value="center" id="centerAlignCheckbox" checked>
-            <label for="centerAlignCheckbox">Center Align Text</label>
-            <input type="radio" name="align" value="right" id="rightAlignCheckbox">
-            <label for="rightAlignCheckbox">Right Align Text</label>
+                <input type="radio" name="align" value="left" id="leftAlignCheckbox">
+                <label for="leftAlignCheckbox">Left Align Text</label>
+                <input type="radio" name="align" value="center" id="centerAlignCheckbox" checked>
+                <label for="centerAlignCheckbox">Center Align Text</label>
+                <input type="radio" name="align" value="right" id="rightAlignCheckbox">
+                <label for="rightAlignCheckbox">Right Align Text</label>
 
-            <input type="checkbox" id="autoHeightMarkCheckbox" checked>
-            <label for="autoHeightMarkCheckbox">Auto height markers</label>
-        </div>
+                <input type="checkbox" id="autoHeightMarkCheckbox" checked>
+                <label for="autoHeightMarkCheckbox">Auto height markers</label>
+            </div>
+        </details>
         <button id="generateButton">Generate</button>
         <svg id="drawingArea"></svg>
         <img id="outputImage"/>
