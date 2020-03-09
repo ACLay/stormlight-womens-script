@@ -101,6 +101,8 @@ function generateText(){
     while (svg.hasChildNodes()) {
         svg.removeChild(svg.firstChild)
     }
+    setBackground()
+    setForeground()
 
     const lineGroups = []
     const lineWidths = []
@@ -194,21 +196,16 @@ function setForeground() {
 }
 
 window.onload = function(){
-    document.getElementById("generateButton").onclick = generateText
-    document.getElementById("bgColourPicker").onchange = setBackground
-    document.getElementById("transparentBgCheckbox").onchange = setBackground
-    document.getElementById("fgColourPicker").onchange = setForeground
-    
     document.getElementById("sourceText").value =
         "Szeth son son Vallano\n" +
         "Truthless of Shinovar\n" +
         "wore white on the day\n" +
         "he was to kill a king"
 
-    loadImages()
-    .then(() => {
-        setBackground()
-        setForeground()
-        generateText()
+    document.querySelectorAll("input, textarea").forEach((input) => {
+        input.onchange = generateText
     })
+
+    loadImages()
+    .then(generateText)
 }
