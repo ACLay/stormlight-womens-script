@@ -104,6 +104,9 @@ function generateText(){
     setBackground()
     setForeground()
 
+    const italicAngle = document.getElementById("italicsAngleInput").value
+    const italicOffset = Alethi.lineHeight * Math.tan(italicAngle*Math.PI/180)
+
     const lineGroups = []
     const lineWidths = []
     const lines = getSymbols()
@@ -112,6 +115,9 @@ function generateText(){
             imgHeight += Alethi.lineSpacing
         }
         let lineWidth = 0
+        if (italicOffset < 0) {
+            lineWidth -= italicOffset
+        }
         const lineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
         for (const symbol of lines[i]) {
             if (symbol != " ") {
@@ -122,6 +128,9 @@ function generateText(){
             } else {
                 lineWidth += Alethi.wordSpacing
             }
+        }
+        if (italicOffset > 0) {
+            lineWidth += italicOffset
         }
         if (lineWidth > imgWidth) {
             imgWidth = lineWidth
@@ -137,16 +146,16 @@ function generateText(){
     for (let i = 0; i < lineGroups.length; i++) {
         const group = lineGroups[i]
         const width = lineWidths[i]
-        let xOffset = Alethi.borderSize
+        let xOffset = Alethi.borderSize + italicOffset
         if (align == "center") {
             xOffset += Math.round((imgWidth - width) / 2)
         } else if (align == "right") {
             xOffset += imgWidth - width
         }
-        group.setAttribute("transform", "translate("+xOffset+","+yOffset+")")
+        group.setAttribute("transform", "translate("+xOffset+","+yOffset+") skewX("+(-italicAngle)+")")
         yOffset += Alethi.lineHeight + Alethi.lineSpacing
     }
-    
+
     svg.setAttribute("width", imgWidth + 2 * Alethi.borderSize)
     svg.setAttribute("height", imgHeight + 2 * Alethi.borderSize)
     displayImage()

@@ -35,6 +35,7 @@ details {
 
 .customisation input {
     justify-self: center;
+    max-width: 6em;
 }
 
 svg {
