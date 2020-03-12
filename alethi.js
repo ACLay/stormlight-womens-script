@@ -200,14 +200,16 @@ function displayImage() {
 }
 
 function setBackground() {
-    const svg = document.getElementById("drawingArea")
-    const transparentBox = document.getElementById("transparentBgCheckbox")
-    let style = ""
-    if (!transparentBox.checked) {
-        const picker = document.getElementById("bgColourPicker")
-        style = "background-color: "+picker.value+";"
+    const transparent = document.getElementById("transparentBgCheckbox").checked
+    if (!transparent) {
+        const colour = document.getElementById("bgColourPicker").value
+        const bg = document.createElementNS("http://www.w3.org/2000/svg", "rect")
+        bg.setAttribute("width", "100%")
+        bg.setAttribute("height", "100%")
+        bg.setAttribute("fill", colour)
+        const svg = document.getElementById("drawingArea")
+        svg.insertBefore(bg, svg.firstChild)
     }
-    svg.setAttribute("style", style)
 }
 
 function setForeground() {
