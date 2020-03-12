@@ -43,6 +43,8 @@ const stringSounds = new Map([
     [" ", " "],
 ])
 
+let svgUrl = null
+
 function loadImages() {
     return Promise.all(
         sounds.map(sound =>
@@ -159,6 +161,9 @@ function generateText(){
     }
     svg.setAttribute("width", (imgWidth + 2 * Alethi.borderSize) * scale)
     svg.setAttribute("height", (imgHeight + 2 * Alethi.borderSize) * scale)
+    const description = document.createElementNS("http://www.w3.org/2000/svg", "desc")
+    description.textContent = "The text '" + document.getElementById("sourceText").value + "' displayed in womens script from The Stormlight Archive"
+    svg.appendChild(description)
     displayImage()
 }
 
@@ -175,15 +180,20 @@ function displayImage() {
 
     var image = new Image()
     var svgBlob = new Blob([data], {type: "image/svg+xml;charset=utf-8"})
-    var url = domURL.createObjectURL(svgBlob)
+    if (svgUrl != null) {
+        domURL.revokeObjectURL(svgUrl)
+    }
+    svgUrl = domURL.createObjectURL(svgBlob)
 
     image.onload = function(){
         context.drawImage(image, 0, 0, svg.getAttribute("width"), svg.getAttribute("height"))
-        domURL.revokeObjectURL(url)
         const imageTag = document.getElementById("outputImage")
         imageTag.src = canvas.toDataURL()
     }
-    image.src = url
+    image.src = svgUrl
+
+    const svgSave = document.getElementById("svgSave")
+    svgSave.href = svgUrl
 }
 
 function setBackground() {
