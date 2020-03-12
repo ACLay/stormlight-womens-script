@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Alethi script generator</title>
+        <title>Women's script generator</title>
         <script src="alethi.js"></script>
         <link rel="stylesheet" href="style.css"/>
         <link rel="shortcut icon" href="favicon.png">
     </head>
     <body>
-        <h1>Alethi Script</h1>
+        <h1>Women's Script</h1>
+        <p>
+            Turn text into
+            <a href="https://coppermind.net/wiki/Women%27s_script">women's script</a>
+            from The Stormlight Archive.
+        </p>
         <textarea id="sourceText"></textarea>
+        <svg id="drawingArea"></svg>
+        <img id="outputImage"/>
         <details>
-            <summary>Customisation options</summary>
+            <summary>Options</summary>
             <div class="customisation">
                 <input type="color" value="#000000" id="fgColourPicker">
                 <label for="fgColourPicker">Text colour</label>
@@ -39,9 +46,9 @@
             </div>
         </details>
         <details>
-            <summary>Alethi script details</summary>
+            <summary>About</summary>
             <p>
-                Alethi script is made of symbols that represent sounds.
+                Women's script is made of symbols that represent sounds.
                 The known symbols correspond to the following letters/sounds in english:
                 "A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z".
                 This leaves out the letters "C" and "Q" which are replaced with "K",
@@ -51,10 +58,10 @@
                 There are dedicated symbols for the "CH", "SH", and "TH" sounds.
                 To generate script with the symbols for their component
                 letters sounds next to each other, add a character between them that
-                has no corresponding Alethi symbol, such as a dash "-" or backslash "\".
+                has no corresponding women's script symbol, such as a dash "-" or backslash "\".
             </p>
             <p>
-                There is one known punctuation symbol in alethi script,
+                There is one known punctuation symbol in Women's script,
                 a line height marker which is often added at the start of a paragraph.
                 This generator will by default add them automatically at the start of
                 text and after a blank line, but you can insert one manually by
@@ -62,12 +69,5 @@
                 followed by an opening one "][".
             </p>
         </details>
-        <svg id="drawingArea"></svg>
-        <img id="outputImage"/>
-        <p>
-            Turns text into the Alethi women's script from The Stormlight Archive.
-            <br>
-            See <a href="https://coppermind.net/wiki/Women%27s_script">https://coppermind.net/wiki/Women's_script</a>
-        </p>
     </body>
 </html>
