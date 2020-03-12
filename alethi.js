@@ -43,7 +43,7 @@ const stringSounds = new Map([
     [" ", " "],
 ])
 
-let svgUrl = null
+let imageUrl = null
 
 function loadImages() {
     return Promise.all(
@@ -176,14 +176,14 @@ function displayImage() {
 
     const domURL = window.URL || window.webkitURL || window
     var svgBlob = new Blob([data], {type: "image/svg+xml;charset=utf-8"})
-    if (svgUrl != null) {
-        domURL.revokeObjectURL(svgUrl)
+    if (imageUrl != null) {
+        domURL.revokeObjectURL(imageUrl)
     }
-    svgUrl = domURL.createObjectURL(svgBlob)
+    imageUrl = domURL.createObjectURL(svgBlob)
     const imageTag = document.getElementById("outputImage")
 
     if (format == "svg") {
-        imageTag.src = svgUrl
+        imageTag.src = imageUrl
     } else if (format == "png") {
         const canvas = document.createElement("canvas")
         const context = canvas.getContext("2d")
@@ -193,9 +193,13 @@ function displayImage() {
         var image = new Image()
         image.onload = function(){
             context.drawImage(image, 0, 0, svg.getAttribute("width"), svg.getAttribute("height"))
-            imageTag.src = canvas.toDataURL()
+            domURL.revokeObjectURL(imageUrl)
+            var pngBlob = canvas.toBlob((blob) => {
+                imageUrl = domURL.createObjectURL(blob)
+                imageTag.src = imageUrl
+            })
         }
-        image.src = svgUrl
+        image.src = imageUrl
     }
 }
 
