@@ -22,6 +22,10 @@ details {
     margin: 0.5em;
 }
 
+summary {
+    font-weight: bold;
+}
+
 .customisation {
     display: grid;
     grid-template-columns: auto auto; /* Workaround for https://bugzil.la/1341507 */
