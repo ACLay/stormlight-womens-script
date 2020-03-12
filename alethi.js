@@ -168,32 +168,35 @@ function generateText(){
 }
 
 function displayImage() {
-    const canvas = document.createElement("canvas")
-    const context = canvas.getContext("2d")
+    const format = document.querySelector("input[name=format]:checked").value
+
     const svg = document.getElementById("drawingArea")
-
-    canvas.width = svg.getAttribute("width")
-    canvas.height = svg.getAttribute("height")
-
     const data = (new XMLSerializer()).serializeToString(svg)
-    const domURL = window.URL || window.webkitURL || window
 
-    var image = new Image()
+
+    const domURL = window.URL || window.webkitURL || window
     var svgBlob = new Blob([data], {type: "image/svg+xml;charset=utf-8"})
     if (svgUrl != null) {
         domURL.revokeObjectURL(svgUrl)
     }
     svgUrl = domURL.createObjectURL(svgBlob)
+    const imageTag = document.getElementById("outputImage")
 
-    image.onload = function(){
-        context.drawImage(image, 0, 0, svg.getAttribute("width"), svg.getAttribute("height"))
-        const imageTag = document.getElementById("outputImage")
-        imageTag.src = canvas.toDataURL()
+    if (format == "svg") {
+        imageTag.src = svgUrl
+    } else if (format == "png") {
+        const canvas = document.createElement("canvas")
+        const context = canvas.getContext("2d")
+        canvas.width = svg.getAttribute("width")
+        canvas.height = svg.getAttribute("height")
+
+        var image = new Image()
+        image.onload = function(){
+            context.drawImage(image, 0, 0, svg.getAttribute("width"), svg.getAttribute("height"))
+            imageTag.src = canvas.toDataURL()
+        }
+        image.src = svgUrl
     }
-    image.src = svgUrl
-
-    const svgSave = document.getElementById("svgSave")
-    svgSave.href = svgUrl
 }
 
 function setBackground() {

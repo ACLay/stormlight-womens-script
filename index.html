@@ -16,7 +16,6 @@
         <textarea id="sourceText"></textarea>
         <svg id="drawingArea"></svg>
         <img id="outputImage"/>
-        <a id="svgSave" download="stormlight.svg">Save as svg</a></p>
         <details>
             <summary>Options</summary>
             <div class="customisation">
@@ -44,7 +43,12 @@
 
                 <input type="checkbox" id="autoHeightMarkCheckbox" checked>
                 <label for="autoHeightMarkCheckbox">Auto height markers</label>
-            </div><p>
+
+                <input type="radio" name="format" value="png" id="pngFormatCheckbox" checked>
+                <label for="svgFormatCheckbox">PNG image format</label>
+                <input type="radio" name="format" value="svg" id="svgFormatCheckbox">
+                <label for="svgFormatCheckbox">SVG image format</label>
+            </div>
         </details>
         <details>
             <summary>About</summary>
