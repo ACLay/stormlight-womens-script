@@ -1,4 +1,4 @@
-# Alethi-script-generator
-Convert text to the Alethi women's script from The Stormlight Archive
+# Women's script generator
+Turn text into [women's script](https://coppermind.net/wiki/Women%27s_script) from The Stormlight Archive.
 
-Live site: https://aclay.github.io/Alethi-script-generator/
+Live site: https://aclay.github.io/stormlight-womens-script/
