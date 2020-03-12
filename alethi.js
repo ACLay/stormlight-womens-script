@@ -49,6 +49,7 @@ function loadImages() {
             fetch("symbols/" + sound + ".svg")
             .then(response => response.text())
             .then(text => text.replace(/stroke:#[0-9a-fA-F]*;?/g, ''))
+            .then(text => text.replace(/stroke-width:[0-9a-zA-Z]*;?/g, ''))
             .then(text => (new window.DOMParser()).parseFromString(text, "text/xml"))
             .then(svgNode => {
                 console.log(sound, svgNode)
@@ -142,6 +143,7 @@ function generateText(){
     }
 
     const align = document.querySelector("input[name=align]:checked").value
+    const scale = document.getElementById("scaleInput").value
     let yOffset = Alethi.borderSize
     for (let i = 0; i < lineGroups.length; i++) {
         const group = lineGroups[i]
@@ -152,12 +154,11 @@ function generateText(){
         } else if (align == "right") {
             xOffset += imgWidth - width
         }
-        group.setAttribute("transform", "translate("+xOffset+","+yOffset+") skewX("+(-italicAngle)+")")
+        group.setAttribute("transform", "scale("+scale+") translate("+xOffset+","+yOffset+") skewX("+(-italicAngle)+")")
         yOffset += Alethi.lineHeight + Alethi.lineSpacing
     }
-
-    svg.setAttribute("width", imgWidth + 2 * Alethi.borderSize)
-    svg.setAttribute("height", imgHeight + 2 * Alethi.borderSize)
+    svg.setAttribute("width", (imgWidth + 2 * Alethi.borderSize) * scale)
+    svg.setAttribute("height", (imgHeight + 2 * Alethi.borderSize) * scale)
     displayImage()
 }
 
@@ -197,8 +198,10 @@ function setBackground() {
 }
 
 function setForeground() {
-    const picker = document.getElementById("fgColourPicker")
-    const style = "stroke:"+picker.value
+    const colour = document.getElementById("fgColourPicker").value
+    const scale = document.getElementById("scaleInput").value
+    const width = document.getElementById("strokeWidthInput").value / scale
+    const style = "stroke:"+colour+";stroke-width:"+width+"px;"
     for (const symbol of images.values()) {
         symbol.setAttribute("style", style)
     }
