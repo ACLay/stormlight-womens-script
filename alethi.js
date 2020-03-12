@@ -175,7 +175,7 @@ function displayImage() {
 
 
     const domURL = window.URL || window.webkitURL || window
-    var svgBlob = new Blob([data], {type: "image/svg+xml;charset=utf-8"})
+    const svgBlob = new Blob([data], {type: "image/svg+xml;charset=utf-8"})
     if (imageUrl != null) {
         domURL.revokeObjectURL(imageUrl)
     }
@@ -183,18 +183,20 @@ function displayImage() {
     const imageTag = document.getElementById("outputImage")
 
     if (format == "svg") {
+        // Load the svg blob into the DOM
         imageTag.src = imageUrl
     } else if (format == "png") {
+        // Render the svg blob to a png blob, and load that into the DOM
         const canvas = document.createElement("canvas")
         const context = canvas.getContext("2d")
         canvas.width = svg.getAttribute("width")
         canvas.height = svg.getAttribute("height")
 
-        var image = new Image()
+        const image = new Image()
         image.onload = function(){
             context.drawImage(image, 0, 0, svg.getAttribute("width"), svg.getAttribute("height"))
             domURL.revokeObjectURL(imageUrl)
-            var pngBlob = canvas.toBlob((blob) => {
+            canvas.toBlob((blob) => {
                 imageUrl = domURL.createObjectURL(blob)
                 imageTag.src = imageUrl
             })
