@@ -38,6 +38,10 @@ details {
     max-width: 6em;
 }
 
+.customisation input[type=number] {
+    max-width: 4em;
+}
+
 svg {
     display: none
 }
