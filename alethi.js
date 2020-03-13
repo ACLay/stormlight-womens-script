@@ -229,6 +229,12 @@ Alethi.setForeground = function setForeground() {
 }
 
 window.onload = function() {
+    var ua = window.navigator.userAgent;
+    var isIE = /MSIE|Trident/.test(ua);
+    if (!isIE) {
+        document.getElementById("IEWarning").className = "hidden"
+    }
+
     document.getElementById("sourceText").value =
         "Szeth son son Vallano\n" +
         "Truthless of Shinovar\n" +
