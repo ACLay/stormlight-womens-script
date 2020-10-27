@@ -7,7 +7,7 @@ const Alethi = {
     images : new Map(),
     imageWidths : new Map(),
 
-    sounds : ["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z","]["],
+    symbols : ["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z","]["],
 
     stringSounds : new Map([
         ["A", "A"],
@@ -47,16 +47,16 @@ const Alethi = {
 
 Alethi.loadImages = function loadImages() {
     return Promise.all(
-        Alethi.sounds.map(sound =>
-            fetch("symbols/" + sound + ".svg")
+        Alethi.symbols.map(symbol =>
+            fetch("symbols/" + symbol + ".svg")
             .then(response => response.text())
             .then(text => text.replace(/stroke:#[0-9a-fA-F]*;?/g, ''))
             .then(text => text.replace(/stroke-width:[0-9a-zA-Z]*;?/g, ''))
             .then(text => (new window.DOMParser()).parseFromString(text, "text/xml"))
             .then(svgNode => {
-                console.log(sound, svgNode)
-                Alethi.images.set(sound, svgNode.querySelector("g"))
-                Alethi.imageWidths.set(sound, parseInt(svgNode.documentElement.getAttribute("width")))
+                console.log(symbol, svgNode)
+                Alethi.images.set(symbol, svgNode.querySelector("g"))
+                Alethi.imageWidths.set(symbol, parseInt(svgNode.documentElement.getAttribute("width")))
             })
         )
     )
