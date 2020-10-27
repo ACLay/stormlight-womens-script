@@ -62,12 +62,17 @@ Alethi.loadImages = function loadImages() {
     )
 }
 
-Alethi.getSymbols = function getSymbols() {
-    let text = document.getElementById("sourceText").value.trim().toUpperCase()
-    const autoHeightMarkers = document.getElementById("autoHeightMarkCheckbox").checked
-    text = text.trim()
+Alethi.getSubstitutedText = function getSubstitutedText() {
+    return document.getElementById("sourceText").value
+        .trim()
+        .toUpperCase()
         .replace(/X/g, "KS")
         .replace(/\|/g, "][")
+}
+
+Alethi.getSymbols = function getSymbols() {
+    let text = Alethi.getSubstitutedText()
+    const autoHeightMarkers = document.getElementById("autoHeightMarkCheckbox").checked
     const lines = []
     let newParagraph = true
     for (let line of text.split('\n')) {
