@@ -9,37 +9,14 @@ const Alethi = {
 
     symbols : ["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z","]["],
 
-    stringSounds : new Map([
-        ["A", "A"],
-        ["B", "B"],
-        ["C", "K"],
-        ["D", "D"],
-        ["E", "E"],
-        ["F", "F"],
-        ["G", "G"],
-        ["H", "H"],
-        ["I", "I"],
-        ["J", "J"],
-        ["K", "K"],
-        ["L", "L"],
-        ["M", "M"],
-        ["N", "N"],
-        ["O", "O"],
-        ["P", "P"],
-        ["Q", "K"],
-        ["R", "R"],
-        ["S", "S"],
-        ["T", "T"],
-        ["U", "U"],
-        ["V", "V"],
-        ["W", "U"],
-        ["Y", "Y"],
-        ["Z", "Z"],
-        ["CH", "CH"],
-        ["SH", "SH"],
-        ["TH", "TH"],
-        ["][", "]["], // max line height indicator
-        [" ", " "],
+    tokens : new Set(["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z","]["," "]),
+
+    substitutions : new Map([
+        [/C/g, "K"],
+        [/Q/g, "K"],
+        [/W/g, "U"],
+        [/X/g, "KS"],
+        [/\|/g, "]["],
     ]),
 
     imageUrl : null,
@@ -63,24 +40,26 @@ Alethi.loadImages = function loadImages() {
 }
 
 Alethi.getSubstitutedText = function getSubstitutedText() {
-    return document.getElementById("sourceText").value
+    let text = document.getElementById("sourceText").value
         .trim()
         .toUpperCase()
-        .replace(/X/g, "KS")
-        .replace(/\|/g, "][")
+    Alethi.substitutions.forEach((tokens, regex) =>
+        text = text.replace(regex, tokens)
+    )
+    return text;
 }
 
-Alethi.getSymbols = function getSymbols() {
+Alethi.getTokenRows = function getTokenRows() {
     let text = Alethi.getSubstitutedText()
     const autoHeightMarkers = document.getElementById("autoHeightMarkCheckbox").checked
-    const lines = []
+    const tokenRows = []
     let newParagraph = true
     for (let line of text.split('\n')) {
         line = line.trim()
-        const symbols = []
+        const tokenRow = []
         if (line.length > 0) {
             if (autoHeightMarkers && newParagraph && !line.startsWith("][")) {
-                symbols.push("][")
+                tokenRow.push("][")
             }
             newParagraph = false
         } else {
@@ -88,18 +67,18 @@ Alethi.getSymbols = function getSymbols() {
         }
         let index = 0
         while (index < line.length) {
-            let sound = line.substr(index, 2)
-            if (!Alethi.stringSounds.has(sound)) {
-                sound = line.substr(index, 1)
+            let token = line.substr(index, 2)
+            if (!Alethi.tokens.has(token)) {
+                token = line.substr(index, 1)
             }
-            if (Alethi.stringSounds.has(sound)) {
-                symbols.push(Alethi.stringSounds.get(sound))
+            if (Alethi.tokens.has(token)) {
+                tokenRow.push(token)
             }
-            index += sound.length
+            index += token.length
         }
-        lines.push(symbols)
+        tokenRows.push(tokenRow)
     }
-    return lines
+    return tokenRows
 }
 
 Alethi.generateText = function generateText() {
@@ -115,46 +94,46 @@ Alethi.generateText = function generateText() {
     const italicAngle = document.getElementById("italicsAngleInput").value
     const italicOffset = Alethi.lineHeight * Math.tan(italicAngle*Math.PI/180)
 
-    const lineGroups = []
-    const lineWidths = []
-    const lines = Alethi.getSymbols()
-    for (let i = 0; i < lines.length; i++) {
+    const rowSymbolGroups = []
+    const rowWidths = []
+    const tokenRows = Alethi.getTokenRows()
+    for (let i = 0; i < tokenRows.length; i++) {
         if (i != 0) {
             imgHeight += Alethi.lineSpacing
         }
-        let lineWidth = 0
+        let rowWidth = 0
         if (italicOffset < 0) {
-            lineWidth -= italicOffset
+            rowWidth -= italicOffset
         }
-        const lineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
-        for (const symbol of lines[i]) {
-            if (symbol != " ") {
-                const glyph = Alethi.images.get(symbol).cloneNode(true)
-                glyph.setAttribute("transform", "translate("+lineWidth+",0)")
-                lineGroup.appendChild(glyph)
-                lineWidth += Alethi.imageWidths.get(symbol)
+        const rowSymbolGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
+        for (const token of tokenRows[i]) {
+            if (token != " ") {
+                const symbol = Alethi.images.get(token).cloneNode(true)
+                symbol.setAttribute("transform", "translate("+rowWidth+",0)")
+                rowSymbolGroup.appendChild(symbol)
+                rowWidth += Alethi.imageWidths.get(token)
             } else {
-                lineWidth += Alethi.wordSpacing
+                rowWidth += Alethi.wordSpacing
             }
         }
         if (italicOffset > 0) {
-            lineWidth += italicOffset
+            rowWidth += italicOffset
         }
-        if (lineWidth > imgWidth) {
-            imgWidth = lineWidth
+        if (rowWidth > imgWidth) {
+            imgWidth = rowWidth
         }
-        svg.appendChild(lineGroup)
-        lineWidths.push(lineWidth)
-        lineGroups.push(lineGroup)
+        svg.appendChild(rowSymbolGroup)
+        rowWidths.push(rowWidth)
+        rowSymbolGroups.push(rowSymbolGroup)
         imgHeight += Alethi.lineHeight
     }
 
     const align = document.querySelector("input[name=align]:checked").value
     const scale = document.getElementById("scaleInput").value
     let yOffset = Alethi.borderSize
-    for (let i = 0; i < lineGroups.length; i++) {
-        const group = lineGroups[i]
-        const width = lineWidths[i]
+    for (let i = 0; i < rowSymbolGroups.length; i++) {
+        const group = rowSymbolGroups[i]
+        const width = rowWidths[i]
         let xOffset = Alethi.borderSize + italicOffset
         if (align == "center") {
             xOffset += Math.round((imgWidth - width) / 2)
