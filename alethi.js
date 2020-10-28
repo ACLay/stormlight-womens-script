@@ -12,6 +12,7 @@ const Alethi = {
     tokens : new Set(["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z","]["," "]),
 
     substitutions : new Map([
+        [/CK/g, "K"],
         [/C/g, "K"],
         [/Q/g, "K"],
         [/W/g, "U"],
