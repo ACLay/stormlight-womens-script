@@ -40,6 +40,43 @@ Alethi.loadImages = function loadImages() {
     )
 }
 
+Alethi.loadDefaultSubstitutions = function loadDefaultSubstitutions() {
+    const defaults = "CK K\nC K\nQ K\nW U\nX KS\n| ]["
+    const textArea = document.getElementById("substitutionText")
+    if (textArea.value !== defaults) {
+        textArea.value = defaults
+    }
+}
+
+Alethi.regenerateSubstitutions = function regenerateSubstitutions() {
+    const substitutions = new Map()
+    const errors = []
+    const text = document.getElementById("substitutionText").value.toUpperCase()
+    let lineNo = 0
+    for (let line of text.split('\n')) {
+        line = line.trim()
+        lineNo += 1
+        if (line.length > 0) {
+            const parts = line.split(' ')
+            if (parts.length === 2) {
+                // Regex character escaper from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+                const escaped = parts[0].replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&')
+                const input = new RegExp(escaped, 'g')
+                const output = parts[1]
+                // check for valid WS symbols in output
+                substitutions.set(input, output)
+            } else {
+                errors.push(`Line ${lineNo} should be two parts separated by a space`)
+            }
+        }
+    }
+    document.getElementById("substitutionError").innerText = errors.join(", ")
+    if (errors.length === 0) {
+        Alethi.substitutions = substitutions
+        Alethi.generateText()
+    }
+}
+
 Alethi.getSubstitutedText = function getSubstitutedText() {
     let text = document.getElementById("sourceText").value
         .trim()
@@ -226,10 +263,14 @@ window.onload = function() {
         "wore white on the day\n" +
         "he was to kill a king"
 
-    document.querySelectorAll("input, textarea").forEach((input) => {
+    document.querySelectorAll("input, #sourceText").forEach((input) => {
         input.onchange = Alethi.generateText
     })
+    document.getElementById("substitutionText").onchange = Alethi.regenerateSubstitutions
+    document.getElementById("resetSubstitutionButton").onclick = Alethi.loadDefaultSubstitutions
 
     Alethi.loadImages()
+    .then(Alethi.loadDefaultSubstitutions)
+    .then(Alethi.regenerateSubstitutions)
     .then(Alethi.generateText)
 }

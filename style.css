@@ -51,6 +51,10 @@ summary {
     max-width: 4em;
 }
 
+.error {
+    color: red;
+}
+
 .hidden {
     display: none
 }

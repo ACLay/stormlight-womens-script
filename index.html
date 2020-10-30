@@ -24,7 +24,7 @@
         </div>
         <img id="outputImage"/>
         <details>
-            <summary>Options</summary>
+            <summary>Formatting</summary>
             <div class="customisation">
                 <input type="color" value="#000000" id="fgColourPicker">
                 <label for="fgColourPicker">Text colour</label>
@@ -56,6 +56,16 @@
                 <input type="radio" name="format" value="svg" id="svgFormatCheckbox">
                 <label for="svgFormatCheckbox">SVG image format</label>
             </div>
+        </details>
+        <details>
+            <summary>Character substitutions</summary>
+            <p>
+                On each line enter a series of characters, followed by a space, and the womens script symbols they should be replaced with.
+                The valid womens script symbols are: "A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z", "]["
+            </p>
+            <textarea id="substitutionText"></textarea>
+            <p id="substitutionError" class="error"></p>
+            <button id="resetSubstitutionButton">Restore default substitutions</button>
         </details>
         <details>
             <summary>About</summary>
