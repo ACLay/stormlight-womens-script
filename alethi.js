@@ -11,14 +11,9 @@ const Alethi = {
 
     tokens : new Set(["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z","]["," "]),
 
-    substitutions : new Map([
-        [/CK/g, "K"],
-        [/C/g, "K"],
-        [/Q/g, "K"],
-        [/W/g, "U"],
-        [/X/g, "KS"],
-        [/\|/g, "]["],
-    ]),
+    charSubstitutions : new Map(),
+
+    wordSubstitutions : new Map(),
 
     imageUrl : null,
 }
@@ -40,18 +35,55 @@ Alethi.loadImages = function loadImages() {
     )
 }
 
-Alethi.loadDefaultSubstitutions = function loadDefaultSubstitutions() {
-    const defaults = "CK K\nC K\nQ K\nW U\nX KS\n| ]["
-    const textArea = document.getElementById("substitutionText")
+Alethi.loadDefaultWordSubstitutions = function loadDefaultWordSubstitutions() {
+    const defaults = "YOU YU\nSON SUN\nQUEUE KYU"
+    const textArea = document.getElementById("wordSubstitutionText")
     if (textArea.value !== defaults) {
         textArea.value = defaults
     }
 }
 
-Alethi.regenerateSubstitutions = function regenerateSubstitutions() {
+Alethi.loadDefaultCharSubstitutions = function loadDefaultCharSubstitutions() {
+    const defaults = "CK K\nC K\nQ K\nW U\nX KS\n| ]["
+    const textArea = document.getElementById("charSubstitutionText")
+    if (textArea.value !== defaults) {
+        textArea.value = defaults
+    }
+}
+
+Alethi.regenerateWordSubstitutions = function regenerateWordSubstitutions() {
     const substitutions = new Map()
     const errors = []
-    const text = document.getElementById("substitutionText").value.toUpperCase()
+    const text = document.getElementById("wordSubstitutionText").value.toUpperCase()
+    let lineNo = 0
+    for (let line of text.split('\n')) {
+        line = line.trim()
+        lineNo += 1
+        if (line.length > 0) {
+            const parts = line.split(' ')
+            if (parts.length === 2) {
+                // Regex character escaper from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+                const escaped = parts[0].replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&')
+                const input = new RegExp(`^${escaped}$`)
+                const output = parts[1]
+                // check for valid WS symbols in output
+                substitutions.set(input, output)
+            } else {
+                errors.push(`Line ${lineNo} should be two parts separated by a space`)
+            }
+        }
+    }
+    document.getElementById("wordSubstitutionError").innerText = errors.join(", ")
+    if (errors.length === 0) {
+        Alethi.wordSubstitutions = substitutions
+        Alethi.generateText()
+    }
+}
+
+Alethi.regenerateCharSubstitutions = function regenerateCharSubstitutions() {
+    const substitutions = new Map()
+    const errors = []
+    const text = document.getElementById("charSubstitutionText").value.toUpperCase()
     let lineNo = 0
     for (let line of text.split('\n')) {
         line = line.trim()
@@ -70,29 +102,49 @@ Alethi.regenerateSubstitutions = function regenerateSubstitutions() {
             }
         }
     }
-    document.getElementById("substitutionError").innerText = errors.join(", ")
+    document.getElementById("charSubstitutionError").innerText = errors.join(", ")
     if (errors.length === 0) {
-        Alethi.substitutions = substitutions
+        Alethi.charSubstitutions = substitutions
         Alethi.generateText()
     }
 }
 
-Alethi.getSubstitutedText = function getSubstitutedText() {
-    let text = document.getElementById("sourceText").value
+Alethi.getSubstitutedLines = function getSubstitutedLines() {
+    let rawLines = document.getElementById("sourceText").value
         .trim()
         .toUpperCase()
-    Alethi.substitutions.forEach((tokens, regex) =>
-        text = text.replace(regex, tokens)
-    )
-    return text;
+        .split("\n")
+    const subbedLines = []
+    for (let rawLine of rawLines) {
+        const rawWords = rawLine.split(" ")
+        const subbedWords = []
+        for (let word of rawWords) {
+            let subbed = false
+            for (let [regex, symbols] of Alethi.wordSubstitutions) {
+                if (regex.test(word)) {
+                    subbedWords.push(symbols)
+                    subbed = true
+                    break
+                }
+            }
+            if (!subbed) {
+                Alethi.charSubstitutions.forEach((tokens, regex) =>
+                    word = word.replace(regex, tokens)
+                )
+                subbedWords.push(word)
+            }
+        }
+        subbedLines.push(subbedWords.join(" "))
+    }
+    return subbedLines;
 }
 
 Alethi.getTokenRows = function getTokenRows() {
-    let text = Alethi.getSubstitutedText()
+    let lines = Alethi.getSubstitutedLines()
     const autoHeightMarkers = document.getElementById("autoHeightMarkCheckbox").checked
     const tokenRows = []
     let newParagraph = true
-    for (let line of text.split('\n')) {
+    for (let line of lines) {
         line = line.trim()
         const tokenRow = []
         if (line.length > 0) {
@@ -266,11 +318,14 @@ window.onload = function() {
     document.querySelectorAll("input, #sourceText").forEach((input) => {
         input.onchange = Alethi.generateText
     })
-    document.getElementById("substitutionText").onchange = Alethi.regenerateSubstitutions
-    document.getElementById("resetSubstitutionButton").onclick = Alethi.loadDefaultSubstitutions
+    document.getElementById("wordSubstitutionText").onchange = Alethi.regenerateWordSubstitutions
+    document.getElementById("charSubstitutionText").onchange = Alethi.regenerateCharSubstitutions
+    document.getElementById("resetWordSubstitutionButton").onclick = Alethi.loadDefaultWordSubstitutions
+    document.getElementById("resetCharSubstitutionButton").onclick = Alethi.loadDefaultCharSubstitutions
 
     Alethi.loadImages()
-    .then(Alethi.loadDefaultSubstitutions)
-    .then(Alethi.regenerateSubstitutions)
+    .then(Alethi.loadDefaultWordSubstitutions)
+    .then(Alethi.loadDefaultCharSubstitutions)
+    .then(Alethi.regenerateCharSubstitutions)
     .then(Alethi.generateText)
 }

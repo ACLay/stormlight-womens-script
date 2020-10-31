@@ -58,14 +58,22 @@
             </div>
         </details>
         <details>
-            <summary>Character substitutions</summary>
+            <summary>Substitutions</summary>
             <p>
-                On each line enter a series of characters, followed by a space, and the womens script symbols they should be replaced with.
+                Enter words, followed by a space, and the womens script symbols they should be replaced with.
                 The valid womens script symbols are: "A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z", "]["
             </p>
-            <textarea id="substitutionText"></textarea>
-            <p id="substitutionError" class="error"></p>
-            <button id="resetSubstitutionButton">Restore default substitutions</button>
+            <textarea id="wordSubstitutionText"></textarea>
+            <p id="wordSubstitutionError" class="error"></p>
+            <button id="resetWordSubstitutionButton">Restore default word substitutions</button>
+            <p>
+                On each line enter a series of characters, followed by a space, and the womens script symbols they should be replaced with.
+                These replacements will take place in any text not already replaced by the word substitution.
+                The valid womens script symbols are: "A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z", "]["
+            </p>
+            <textarea id="charSubstitutionText"></textarea>
+            <p id="charSubstitutionError" class="error"></p>
+            <button id="resetCharSubstitutionButton">Restore default char substitutions</button>
         </details>
         <details>
             <summary>About</summary>
