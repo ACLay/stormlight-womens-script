@@ -52,38 +52,25 @@ Alethi.loadDefaultCharSubstitutions = function loadDefaultCharSubstitutions() {
 }
 
 Alethi.regenerateWordSubstitutions = function regenerateWordSubstitutions() {
-    const substitutions = new Map()
-    const errors = []
-    const text = document.getElementById("wordSubstitutionText").value.toUpperCase()
-    let lineNo = 0
-    for (let line of text.split('\n')) {
-        line = line.trim()
-        lineNo += 1
-        if (line.length > 0) {
-            const parts = line.split(' ')
-            if (parts.length === 2) {
-                // Regex character escaper from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
-                const escaped = parts[0].replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&')
-                const input = new RegExp(`^${escaped}$`)
-                const output = parts[1]
-                // check for valid WS symbols in output
-                substitutions.set(input, output)
-            } else {
-                errors.push(`Line ${lineNo} should be two parts separated by a space`)
-            }
-        }
-    }
-    document.getElementById("wordSubstitutionError").innerText = errors.join(", ")
-    if (errors.length === 0) {
+    const substitutions = Alethi.generateSubstitutions("wordSubstitutionText", "wordSubstitutionError", escaped => new RegExp(`^${escaped}$`))
+    if (substitutions !== null) {
         Alethi.wordSubstitutions = substitutions
         Alethi.generateText()
     }
 }
 
 Alethi.regenerateCharSubstitutions = function regenerateCharSubstitutions() {
+    const substitutions = Alethi.generateSubstitutions("charSubstitutionText", "charSubstitutionError", escaped => new RegExp(escaped, 'g'))
+    if (substitutions !== null) {
+        Alethi.charSubstitutions = substitutions
+        Alethi.generateText()
+    }
+}
+
+Alethi.generateSubstitutions = function generateSubstitutions(textInputId, errorOutputId, regexGen) {
     const substitutions = new Map()
     const errors = []
-    const text = document.getElementById("charSubstitutionText").value.toUpperCase()
+    const text = document.getElementById(textInputId).value.toUpperCase()
     let lineNo = 0
     for (let line of text.split('\n')) {
         line = line.trim()
@@ -93,7 +80,7 @@ Alethi.regenerateCharSubstitutions = function regenerateCharSubstitutions() {
             if (parts.length === 2) {
                 // Regex character escaper from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
                 const escaped = parts[0].replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&')
-                const input = new RegExp(escaped, 'g')
+                const input = regexGen(escaped)
                 const output = parts[1]
                 // check for valid WS symbols in output
                 substitutions.set(input, output)
@@ -102,11 +89,11 @@ Alethi.regenerateCharSubstitutions = function regenerateCharSubstitutions() {
             }
         }
     }
-    document.getElementById("charSubstitutionError").innerText = errors.join(", ")
-    if (errors.length === 0) {
-        Alethi.charSubstitutions = substitutions
-        Alethi.generateText()
+    document.getElementById(errorOutputId).innerText = errors.join(", ")
+    if (errors.length !== 0) {
+        return null
     }
+    return substitutions
 }
 
 Alethi.getSubstitutedLines = function getSubstitutedLines() {
