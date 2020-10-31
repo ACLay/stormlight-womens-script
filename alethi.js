@@ -7,9 +7,10 @@ const Alethi = {
     images : new Map(),
     imageWidths : new Map(),
 
+    // The womens script symbols that need lines drawn
     symbols : ["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z","]["],
 
-    tokens : new Set(["A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z","]["," "]),
+    tokens : new Set(), // All substrings that affect how a line is rendered (symbols and space). Generated on page load.
 
     charSubstitutions : new Map(),
 
@@ -309,6 +310,11 @@ window.onload = function() {
     document.getElementById("charSubstitutionText").onchange = Alethi.regenerateCharSubstitutions
     document.getElementById("resetWordSubstitutionButton").onclick = Alethi.loadDefaultWordSubstitutions
     document.getElementById("resetCharSubstitutionButton").onclick = Alethi.loadDefaultCharSubstitutions
+
+    Alethi.tokens = new Set(Alethi.symbols).add(" ")
+    document.querySelectorAll(".symbolList").forEach(element => {
+        element.innerText = Alethi.symbols.join(", ")
+    })
 
     Alethi.loadImages()
     .then(Alethi.loadDefaultWordSubstitutions)
