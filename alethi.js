@@ -313,6 +313,7 @@ window.onload = function() {
     Alethi.loadImages()
     .then(Alethi.loadDefaultWordSubstitutions)
     .then(Alethi.loadDefaultCharSubstitutions)
+    .then(Alethi.regenerateWordSubstitutions)
     .then(Alethi.regenerateCharSubstitutions)
     .then(Alethi.generateText)
 }
