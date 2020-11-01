@@ -37,19 +37,22 @@ Alethi.loadImages = function loadImages() {
 }
 
 Alethi.loadDefaultWordSubstitutions = function loadDefaultWordSubstitutions() {
-    const defaults = "YOU YU\nSON SUN\nQUEUE KYU"
-    const textArea = document.getElementById("wordSubstitutionText")
-    if (textArea.value !== defaults) {
-        textArea.value = defaults
-    }
+    return Alethi.loadSubstitutions("defaultSubstitutions/word.txt", "wordSubstitutionText")
 }
 
 Alethi.loadDefaultCharSubstitutions = function loadDefaultCharSubstitutions() {
-    const defaults = "CK K\nC K\nQ K\nW U\nX KS\n| ]["
-    const textArea = document.getElementById("charSubstitutionText")
-    if (textArea.value !== defaults) {
-        textArea.value = defaults
-    }
+    return Alethi.loadSubstitutions("defaultSubstitutions/character.txt", "charSubstitutionText")
+}
+
+Alethi.loadSubstitutions = function loadSubstitutions(path, targetTextareaId) {
+    const textArea = document.getElementById(targetTextareaId)
+    return fetch(path)
+        .then(response => response.text())
+        .then(text => {
+            const different = textArea.value !== text
+            textArea.value = text
+            return different
+        })
 }
 
 Alethi.regenerateWordSubstitutions = function regenerateWordSubstitutions() {
