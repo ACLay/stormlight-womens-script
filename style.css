@@ -54,3 +54,15 @@ summary {
 .hidden {
     display: none
 }
+
+#symbolDisplay {
+    display: grid;
+    grid-template-columns: auto auto; /* Workaround for https://bugzil.la/1341507 */
+    grid-template-columns: repeat(auto-fill, 2em 5em);
+    grid-auto-rows: 1fr;
+    column-gap: 0.5em;
+    row-gap: 1em;
+    align-items: center;
+    margin: 0.5em 0;
+    width: 100%;
+}

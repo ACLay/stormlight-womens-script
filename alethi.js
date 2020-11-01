@@ -315,6 +315,10 @@ window.onload = function() {
     document.querySelectorAll(".symbolList").forEach(element => {
         element.innerText = Alethi.symbols.join(", ")
     })
+    document.getElementById("symbolDisplay").innerHTML = Alethi.symbols
+        .map(symbol => `<img src="symbols/${symbol}.svg"><p>${symbol}</p>`)
+        .join("")
+        .replace("<p>][</p>","<p>][<br>(line height)</p>")
 
     Alethi.loadImages()
     .then(Alethi.loadDefaultWordSubstitutions)
