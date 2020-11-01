@@ -23,7 +23,6 @@ summary {
 
 .customisation {
     display: grid;
-    grid-template-columns: auto auto; /* Workaround for https://bugzil.la/1341507 */
     grid-template-columns: repeat(auto-fill, minmax(3em, auto) minmax(8em, auto));
     grid-auto-rows: 1fr;
     column-gap: 0.5em;
@@ -60,7 +59,6 @@ summary {
 
 #symbolDisplay {
     display: grid;
-    grid-template-columns: auto auto; /* Workaround for https://bugzil.la/1341507 */
     grid-template-columns: repeat(auto-fill, 2em 5em);
     grid-auto-rows: 1fr;
     column-gap: 0.5em;
