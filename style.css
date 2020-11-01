@@ -42,13 +42,10 @@ summary {
 }
 
 .substitutions {
-    display: flex;
-    flex-direction: row;
-}
-
-.substitutions > div {
-    padding:0.5em;
-    width: 50%;
+    display: grid;
+    grid-template-rows: repeat(5, auto);
+    grid-auto-flow: column;
+    column-gap: 1em;
 }
 
 .substitutions textarea {
@@ -78,7 +75,7 @@ summary {
         width:100%
     }
     .substitutions {
-        flex-direction: column;
+        grid-template-rows: repeat(10, auto);
     }
     .substitutions > div {
         width: 100%;
