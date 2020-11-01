@@ -4,17 +4,11 @@ body {
     align-items: center;
 }
 
-textarea {
+#sourceText {
     width: 30em;
     max-width: 100%;
     min-height: 5em;
     margin: 0.5em;
-}
-
-@media (max-width: 30em) {
-    textarea {
-        width:100%
-    }
 }
 
 details {
@@ -47,12 +41,24 @@ summary {
     max-width: 4em;
 }
 
-.error {
-    color: red;
+.substitutions {
+    display: flex;
+    flex-direction: row;
 }
 
-.hidden {
-    display: none
+.substitutions > div {
+    padding:0.5em;
+    width: 50%;
+}
+
+.substitutions textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 8em;
+}
+
+.error {
+    color: red;
 }
 
 #symbolDisplay {
@@ -65,4 +71,20 @@ summary {
     align-items: center;
     margin: 0.5em 0;
     width: 100%;
+}
+
+@media (max-width: 30em) {
+    textarea {
+        width:100%
+    }
+    .substitutions {
+        flex-direction: column;
+    }
+    .substitutions > div {
+        width: 100%;
+    }
+}
+
+.hidden {
+    display: none
 }
