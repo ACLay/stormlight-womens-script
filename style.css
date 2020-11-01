@@ -77,9 +77,6 @@ summary {
     .substitutions {
         grid-template-rows: repeat(10, auto);
     }
-    .substitutions > div {
-        width: 100%;
-    }
 }
 
 .hidden {
