@@ -72,6 +72,9 @@ Alethi.regenerateCharSubstitutions = function regenerateCharSubstitutions() {
 }
 
 Alethi.generateSubstitutions = function generateSubstitutions(textInputId, errorOutputId, regexGen) {
+    // Regex character escaper from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+    const regexEscape = text => text.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&')
+    const tokenRemover = new RegExp(`(.*?)(${Alethi.symbols.map(regexEscape).join("|")}|\\\\)`, "g")
     const substitutions = new Map()
     const errors = []
     const text = document.getElementById(textInputId).value.toUpperCase()
@@ -82,12 +85,15 @@ Alethi.generateSubstitutions = function generateSubstitutions(textInputId, error
         if (line.length > 0) {
             const parts = line.split(' ')
             if (parts.length === 2) {
-                // Regex character escaper from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
-                const escaped = parts[0].replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&')
+                const escaped = regexEscape(parts[0])
                 const input = regexGen(escaped)
                 const output = parts[1]
-                // check for valid WS symbols in output
-                substitutions.set(input, output)
+                // check for valid WS symbols in output. If only symbols are present, the empty string will be returned
+                if (output.replace(tokenRemover, "$1").length === 0) {
+                    substitutions.set(input, output)
+                } else {
+                    errors.push(`Line ${lineNo} does not map exclusively to women's script symbols`)
+                }
             } else {
                 errors.push(`Line ${lineNo} should be two parts separated by a space`)
             }
