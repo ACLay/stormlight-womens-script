@@ -61,15 +61,20 @@
             <summary>Substitutions</summary>
             <p>
                 If there are words or (groups of) characters that do not map directly to sounds of womens script symbols you can enter custom substitutions here.
-                Examples of this include words with silent letters (queue),
-                letters that together make a single sound (the c and k in luck or muck which just make one k sound),
-                and characters that don't have a separate womens script symbol (c should be treated as k).
+                Examples of this include:
+                <ul>
+                    <li>words with silent letters</li>
+                    <li>letters that together make a single sound (the c and k in luck or muck which just make one k sound)</li>
+                    <li>groups of letters that don't make their normal sounds (the "tion" in "fiction")</li>
+                    <li>letters that don't have a separate womens script symbol (C, Q, W, X)</li>
+                </ul>
             </p>
             <p>
                 The available womens script symbols are: <span class="symbolList"></span>
             </p>
             <p>
-                If you want your substitution to treat "CH", "SH", or "TH" as separate symbols, separate the symbols with a backslash "\" (ie "C\H")
+                If you want your substitution to treat "CH", "SH", or "TH" as separate symbols, separate the symbols with a backslash "\" (ie "C\H").
+                This can also be used to prevent later character substitutions replacing the symbols from an earlier substitution.
             </p>
             <div class="substitutions">
                 <h3>Word substitutions</h3>
@@ -82,7 +87,7 @@
                 <h3>Character substitutions</h3>
                 <p>
                     On each line enter a series of characters, followed by a space, then the womens script symbols they should be replaced with.
-                    These replacements will take place in any text not already replaced by a word substitution.
+                    These replacements will all take place in any text not already replaced by a word substitution, one after the other.
                 </p>
                 <textarea id="charSubstitutionText"></textarea>
                 <p id="charSubstitutionError" class="error"></p>
@@ -91,31 +96,16 @@
         </details>
         <details>
             <summary>Symbols</summary>
+            <p>
+                The symbols in women's script are not a direct mapping to english letters, but to their sounds.
+                There are also individual symbols for the "ch", "sh", and "th" sounds.
+            </p>
+            <p>
+                Women's script also has a punctuation symbol that indicates the maximum height of symbols in a block of text.
+                By default, this generator will add them automatically at the start of the text and after blank lines.
+                You can turn this off in the formatting section, as well as add them in your text by typing "]["
+            </p>
             <div id="symbolDisplay"></div>
-        </details>
-        <details>
-            <summary>About</summary>
-            <p>
-                Women's script is made of symbols that represent sounds.
-                The known symbols correspond to the following letters/sounds in english:
-                "A", "B", "CH", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "SH", "T", "TH", "U", "V", "Y", "Z".
-                This leaves out the letters "C" and "Q" which are replaced with "K",
-                "W" which is replaced with "U", and "X" which is replaced with "KS".
-            </p>
-            <p>
-                There are dedicated symbols for the "CH", "SH", and "TH" sounds.
-                To generate script with the symbols for their component
-                letters sounds next to each other, add a character between them that
-                has no corresponding women's script symbol, such as a dash "-" or backslash "\".
-            </p>
-            <p>
-                There is one known punctuation symbol in Women's script,
-                a line height marker which is often added at the start of a paragraph.
-                This generator will by default add them automatically at the start of
-                text and after a blank line, but you can insert one manually by
-                typing the vertical line/pipe symbol "|" or a closing square bracket
-                followed by an opening one "][".
-            </p>
         </details>
     </body>
 </html>
