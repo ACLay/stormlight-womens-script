@@ -92,10 +92,10 @@ Alethi.generateSubstitutions = function generateSubstitutions(textInputId, error
                 if (output.replace(tokenRemover, "$1").length === 0) {
                     substitutions.set(input, output)
                 } else {
-                    errors.push(`Line ${lineNo} does not map exclusively to women's script symbols`)
+                    errors.push(`#${lineNo} "${line}" does not map only to women's script symbols`)
                 }
             } else {
-                errors.push(`Line ${lineNo} should be two parts separated by a space`)
+                errors.push(`#${lineNo} "${line}" should be two parts separated by a space`)
             }
         }
     }
