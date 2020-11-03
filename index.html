@@ -24,6 +24,19 @@
         </div>
         <img id="outputImage"/>
         <details>
+            <summary>Symbols</summary>
+            <p>
+                The symbols in women's script are not a direct mapping to english letters, but to their sounds.
+                There are also individual symbols for the "ch", "sh", and "th" sounds.
+            </p>
+            <p>
+                Women's script also has a symbol that indicates the maximum height of symbols in a block of text.
+                By default, this generator will add it automatically at the start of the text and after blank lines.
+                You can turn this off in the formatting section, or add them in your text by typing "]["
+            </p>
+            <div id="symbolDisplay"></div>
+        </details>
+        <details>
             <summary>Formatting</summary>
             <div class="customisation">
                 <input type="color" value="#000000" id="fgColourPicker">
@@ -93,19 +106,6 @@
                 <p id="charSubstitutionError" class="error"></p>
                 <button id="resetCharSubstitutionButton">Restore default character substitutions</button>
             </div>
-        </details>
-        <details>
-            <summary>Symbols</summary>
-            <p>
-                The symbols in women's script are not a direct mapping to english letters, but to their sounds.
-                There are also individual symbols for the "ch", "sh", and "th" sounds.
-            </p>
-            <p>
-                Women's script also has a symbol that indicates the maximum height of symbols in a block of text.
-                By default, this generator will add it automatically at the start of the text and after blank lines.
-                You can turn this off in the formatting section, or add them in your text by typing "]["
-            </p>
-            <div id="symbolDisplay"></div>
         </details>
     </body>
 </html>
