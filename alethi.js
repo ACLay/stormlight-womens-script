@@ -48,6 +48,7 @@ Alethi.loadSubstitutions = function loadSubstitutions(path, targetTextareaId) {
     const textArea = document.getElementById(targetTextareaId)
     return fetch(path)
         .then(response => response.text())
+        .then(text => text.trim())
         .then(text => {
             const different = textArea.value !== text
             textArea.value = text
