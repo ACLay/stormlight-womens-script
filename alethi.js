@@ -55,8 +55,13 @@ Alethi.loadSubstitutions = function loadSubstitutions(path, targetTextareaId) {
         })
 }
 
+Alethi.regexEscape = function regexEscape(string) {
+    // Regex special character escaper from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+    return string.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&")
+}
+
 Alethi.regenerateWordSubstitutions = function regenerateWordSubstitutions() {
-    const substitutions = Alethi.generateSubstitutions("wordSubstitutionText", "wordSubstitutionError", escaped => new RegExp(`^${escaped}$`))
+    const substitutions = Alethi.generateSubstitutions("wordSubstitutionText", "wordSubstitutionError", word => new RegExp(`^${Alethi.regexEscape(word)}$`))
     if (substitutions !== null) {
         Alethi.wordSubstitutions = substitutions
         Alethi.generateText()
@@ -64,7 +69,20 @@ Alethi.regenerateWordSubstitutions = function regenerateWordSubstitutions() {
 }
 
 Alethi.regenerateCharSubstitutions = function regenerateCharSubstitutions() {
-    const substitutions = Alethi.generateSubstitutions("charSubstitutionText", "charSubstitutionError", escaped => new RegExp(escaped, 'g'))
+    const regexBuilder = inputString => {
+        const escapedInput = Alethi.regexEscape(inputString)
+        const remainderMatcher = Alethi.symbols
+            .filter(symbol => symbol.startsWith(inputString))
+            .map(symbol => symbol.substring(inputString.length))
+            .map(Alethi.regexEscape)
+            .join("|")
+        if (remainderMatcher.length > 0) {
+            // when replacing C's, only look for one's that aren't the start of CH symbols
+            return new RegExp(`${escapedInput}(?!${remainderMatcher})`, "g")
+        }
+        return new RegExp(escapedInput, "g")
+    }
+    const substitutions = Alethi.generateSubstitutions("charSubstitutionText", "charSubstitutionError", regexBuilder)
     if (substitutions !== null) {
         Alethi.charSubstitutions = substitutions
         Alethi.generateText()
@@ -72,9 +90,7 @@ Alethi.regenerateCharSubstitutions = function regenerateCharSubstitutions() {
 }
 
 Alethi.generateSubstitutions = function generateSubstitutions(textInputId, errorOutputId, regexGen) {
-    // Regex character escaper from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
-    const regexEscape = text => text.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&')
-    const tokenRemover = new RegExp(`(.*?)(${Alethi.symbols.map(regexEscape).join("|")}|\\\\)`, "g")
+    const tokenRemover = new RegExp(`(.*?)(${Alethi.symbols.map(Alethi.regexEscape).join("|")}|\\\\)`, "g")
     const substitutions = new Map()
     const errors = []
     const text = document.getElementById(textInputId).value.toUpperCase()
@@ -85,8 +101,7 @@ Alethi.generateSubstitutions = function generateSubstitutions(textInputId, error
         if (line.length > 0) {
             const parts = line.split(' ')
             if (parts.length === 2) {
-                const escaped = regexEscape(parts[0])
-                const input = regexGen(escaped)
+                const input = regexGen(parts[0])
                 const output = parts[1]
                 // check for valid WS symbols in output. If only symbols are present, the empty string will be returned
                 if (output.replace(tokenRemover, "$1").length === 0) {
