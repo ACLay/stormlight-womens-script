@@ -445,6 +445,7 @@ Alethi.testTokenisation = function testTokenisation(verbose = false) {
         // Oathbringer - Navani's notebook - swiss army watch
         [
             "Touch the gems in the correct combination to\nrelease a shock from the front nodes that will\nincapacitate an attacker",
+            // This tokenisation differs from the illustration. Unlike in Way of Kings, a G is used at the start of GEM. I switched it to J for consistency.
             [["][","T","O","U","CH"," ","TH","E"," ","J","E","M","S"," ","I","N"," ","TH","E"," ","K","O","R","R","E","K","T"," ","K","O","M","B","I","N","A","T","I","O","N"," ","T","O"],["R","E","L","E","A","S","E"," ","A"," ","SH","O","K"," ","F","R","O","M"," ","TH","E"," ","F","R","O","N","T"," ","N","O","D","E","S"," ","TH","A","T"," ","U","I","L","L"],["I","N","K","A","P","A","S","I","T","A","T","E"," ","A","N"," ","A","T","T","A","K","E","R"]]
         ],
         [
