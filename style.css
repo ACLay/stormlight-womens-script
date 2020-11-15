@@ -4,17 +4,11 @@ body {
     align-items: center;
 }
 
-textarea {
+#sourceText {
     width: 30em;
     max-width: 100%;
     min-height: 5em;
     margin: 0.5em;
-}
-
-@media (max-width: 30em) {
-    textarea {
-        width:100%
-    }
 }
 
 details {
@@ -23,22 +17,17 @@ details {
     margin: 0.5em;
 }
 
-#svgSave {
-    text-align: center;
-}
-
 summary {
     font-weight: bold;
 }
 
 .customisation {
     display: grid;
-    grid-template-columns: auto auto; /* Workaround for https://bugzil.la/1341507 */
     grid-template-columns: repeat(auto-fill, minmax(3em, auto) minmax(8em, auto));
     grid-auto-rows: 1fr;
     column-gap: 0.5em;
     align-items: center;
-    margin: 0.5em;
+    margin: 0.5em 0;
     width: 100%;
 }
 
@@ -49,6 +38,43 @@ summary {
 
 .customisation input[type=number] {
     max-width: 4em;
+}
+
+.substitutions {
+    display: grid;
+    grid-template-rows: repeat(5, auto);
+    grid-auto-flow: column;
+    column-gap: 1em;
+}
+
+.substitutions textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 8em;
+}
+
+.error {
+    color: red;
+}
+
+#symbolDisplay {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 2em 5em);
+    grid-auto-rows: 1fr;
+    column-gap: 0.5em;
+    row-gap: 1em;
+    align-items: center;
+    margin: 0.5em 0;
+    width: 100%;
+}
+
+@media (max-width: 30em) {
+    textarea {
+        width:100%
+    }
+    .substitutions {
+        grid-template-rows: repeat(10, auto);
+    }
 }
 
 .hidden {
