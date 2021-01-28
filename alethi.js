@@ -265,7 +265,7 @@ Alethi.displayImage = function displayImage() {
 
 
     const domURL = window.URL || window.webkitURL || window
-    const svgBlob = new Blob([data], {type: "image/svg+xml;charset=utf-8"})
+    const svgBlob = new Blob([data], {type: "image/svg+xml"})
     if (Alethi.imageUrl != null) {
         domURL.revokeObjectURL(Alethi.imageUrl)
     }
